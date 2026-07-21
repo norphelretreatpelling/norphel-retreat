@@ -1,0 +1,6 @@
+{
+  "name": "Norphel Retreat",
+  "description": "A high-fidelity luxury hospitality landing page for Norphel Retreat in Gulshan, Dhaka, featuring exquisite accommodations, premium dining, and elegant spa offers.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
