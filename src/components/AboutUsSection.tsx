@@ -1,60 +1,38 @@
-import { collageImages } from '../data';
-import { ArrowUpRight, Wifi, Utensils, TreePine, Coffee, Bike, Car } from 'lucide-react';
+import { ArrowUpRight, Wifi, Utensils, TreePine, Coffee, Bike, Car, Compass } from 'lucide-react';
+import { siteConfig } from '../config/siteConfig';
 
-const amenities = [
-  {
-    id: 'amenity-wifi',
-    label: 'High-Speed Wi-Fi',
-    icon: Wifi,
-  },
-  {
-    id: 'amenity-restaurant',
-    label: 'Gourmet Restaurant',
-    icon: Utensils,
-  },
-  {
-    id: 'amenity-rooms',
-    label: 'All View Rooms',
-    icon: TreePine,
-  },
-  {
-    id: 'amenity-tea-coffee',
-    label: 'In-House Tea & Coffee',
-    icon: Coffee,
-  },
-  {
-    id: 'amenity-kids',
-    label: 'Kids Play Area',
-    icon: Bike,
-  },
-  {
-    id: 'amenity-parking',
-    label: 'Parking Area',
-    icon: Car,
-  },
-];
+const iconMap = {
+  Wifi,
+  Utensils,
+  TreePine,
+  Coffee,
+  Bike,
+  Car,
+};
 
-export default function TrustedSection() {
+export default function AboutUsSection() {
+  const { aboutSection } = siteConfig;
+
   return (
     <section id="about" className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       {/* Title & Description side-by-side on desktop */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-16">
         <div className="lg:col-span-6">
           <span className="font-sans text-xs sm:text-sm font-bold tracking-[0.2em] text-[#B8860B] uppercase block mb-3">
-            A Perfect Getaway
+            {aboutSection.eyebrow}
           </span>
           <h2 className="font-roboto text-3xl sm:text-4xl md:text-5xl font-semibold text-[#333333] tracking-wide leading-tight max-w-lg">
-            Your Ideal Hotel Destination
+            {aboutSection.title}
           </h2>
         </div>
         <div className="lg:col-span-6 lg:pt-6 space-y-6">
           <p className="font-sans text-[#666666] text-base sm:text-lg leading-relaxed max-w-xl">
-            At Sila Hotel and Resort, we believe every guest deserves an extraordinary experience.
+            {aboutSection.description}
           </p>
           <div className="flex items-stretch gap-4">
             <div className="w-1 bg-[#B8860B] shrink-0" style={{ minHeight: '2rem' }}></div>
             <p className="font-sans text-[#666666] text-base sm:text-lg leading-relaxed max-w-xl italic">
-              Sila is your ideal destination for relaxation, rejuvenation, and memorable experiences.
+              {aboutSection.quote}
             </p>
           </div>
         </div>
@@ -62,10 +40,10 @@ export default function TrustedSection() {
 
       {/* Grid Content */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-        {/* Left: Amenities Grid (6 Cards from Screenshot) */}
+        {/* Left: Amenities Grid */}
         <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {amenities.map((amenity) => {
-            const IconComponent = amenity.icon;
+          {aboutSection.amenities.map((amenity) => {
+            const IconComponent = iconMap[amenity.iconName] || Compass;
             return (
               <div
                 key={amenity.id}
@@ -89,7 +67,7 @@ export default function TrustedSection() {
           {/* Collage Column 1: A single larger room photo */}
           <div className="w-full sm:w-1/2 rounded-[24px] overflow-hidden shadow-md h-[420px]">
             <img
-              src={collageImages[0]}
+              src={aboutSection.collageImages[0]}
               alt="Luxury room view"
               referrerPolicy="no-referrer"
               className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
@@ -100,7 +78,7 @@ export default function TrustedSection() {
           <div className="w-full sm:w-1/2 flex flex-col gap-6 relative">
             <div className="rounded-[24px] overflow-hidden shadow-md h-[200px]">
               <img
-                src={collageImages[1]}
+                src={aboutSection.collageImages[1]}
                 alt="Retreat poolside"
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
@@ -109,7 +87,7 @@ export default function TrustedSection() {
 
             <div className="rounded-[24px] overflow-hidden shadow-md h-[194px]">
               <img
-                src={collageImages[2]}
+                src={aboutSection.collageImages[2]}
                 alt="Exquisite lounge area"
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
@@ -128,7 +106,7 @@ export default function TrustedSection() {
                   />
                   <text fontFamily="Plus Jakarta Sans" fontSize="7.2" fontWeight="bold" fill="#FFFFFF" letterSpacing="1.2">
                     <textPath href="#badgeCirclePath" startOffset="0%">
-                      HORIZON PARK VALLEY • HORIZON PARK VALLEY •
+                      {aboutSection.badgeText}
                     </textPath>
                   </text>
                 </svg>

@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
-import { navigationLinks } from '../data';
+import { siteConfig } from '../config/siteConfig';
 
 interface NavbarProps {
   onBookClick: () => void;
@@ -8,6 +8,7 @@ interface NavbarProps {
 
 export default function Navbar({ onBookClick }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const { navbar, hotelInfo } = siteConfig;
 
   return (
     <header className="sticky top-0 z-50 bg-[#F8F8F8]/95 backdrop-blur-md transition-shadow duration-300">
@@ -17,8 +18,12 @@ export default function Navbar({ onBookClick }: NavbarProps) {
           <div className="flex-shrink-0 flex items-center">
             <a href="#home" className="flex items-center">
               <span className="font-sans text-sm sm:text-xl font-bold tracking-wider text-[#333333] leading-tight">
-                NORPHEL <br/>
-                RETREAT
+                {hotelInfo.name.split(' ').map((word, idx) => (
+                  <React.Fragment key={idx}>
+                    {word}
+                    {idx === 0 && <br />}
+                  </React.Fragment>
+                ))}
                 <span className="h-2 w-2 rounded-full bg-[#B8860B] inline-block ml-1 mb-0.5"></span>
               </span>
             </a>
@@ -26,7 +31,7 @@ export default function Navbar({ onBookClick }: NavbarProps) {
 
           {/* Desktop Nav Links */}
           <nav className="hidden lg:flex space-x-8 xl:space-x-12">
-            {navigationLinks.map((link) => (
+            {navbar.navLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
@@ -44,7 +49,7 @@ export default function Navbar({ onBookClick }: NavbarProps) {
               id="desktop-book-now"
               className="px-6 py-2.5 rounded-full bg-[#B8860B] hover:bg-[#9B7008] text-white font-sans font-semibold text-sm tracking-wider transition-colors duration-300 shadow-sm"
             >
-              Book Your Stay
+              {navbar.bookButtonText}
             </button>
           </div>
 
@@ -73,7 +78,7 @@ export default function Navbar({ onBookClick }: NavbarProps) {
         } bg-[#F8F8F8]`}
       >
         <div className="px-4 pt-2 pb-6 space-y-3 sm:px-6">
-          {navigationLinks.map((link) => (
+          {navbar.navLinks.map((link) => (
             <a
               key={link.name}
               href={link.href}
@@ -92,7 +97,7 @@ export default function Navbar({ onBookClick }: NavbarProps) {
               id="mobile-book-now"
               className="w-full px-6 py-3 rounded-full bg-[#B8860B] hover:bg-[#9B7008] text-white font-sans font-bold text-center tracking-wider transition-colors duration-300 shadow-md"
             >
-              Book Your Stay
+              {navbar.bookButtonText}
             </button>
           </div>
         </div>

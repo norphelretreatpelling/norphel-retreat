@@ -26,6 +26,7 @@ body {
   background-color: var(--color-bg-base);
   color: var(--color-primary-text);
   overflow-x: hidden;
+  accent-color: var(--color-primary-accent);
 }
 
 /* Custom animation utility for rotating text or badges if needed */

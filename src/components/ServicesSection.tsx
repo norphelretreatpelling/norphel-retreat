@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { Bed, MountainSnow, Sparkles, Users, Play, X, Compass, ExternalLink } from 'lucide-react';
-import { servicesData } from '../data';
+import { Bed, MountainSnow, Sparkles, Users, Play, X, Compass } from 'lucide-react';
+import { siteConfig } from '../config/siteConfig';
 
 export default function ServicesSection() {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
+  const { servicesSection } = siteConfig;
 
   // Helper to map icon name to Lucide Component
   const renderIcon = (iconName: string, isFeatured?: boolean) => {
@@ -29,13 +30,13 @@ export default function ServicesSection() {
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <span className="font-sans text-xs sm:text-sm font-bold tracking-[0.25em] text-[#B8860B] uppercase block mb-3">
-            Why Guests Choose Norphel Retreat
+            {servicesSection.eyebrow}
           </span>
           <h2 className="font-sans text-3xl sm:text-4xl md:text-5xl font-bold text-[#333333] mb-4">
-            Your Holiday Partner
+            {servicesSection.title}
           </h2>
           <p className="font-sans text-[#666666] text-sm sm:text-base leading-relaxed">
-            Our Value lies in delivering warm hospitality, honest service, and consistent quality, ensuring every guest feels genuinely cared for, respected, and welcomed like family throughout their stay.
+            {servicesSection.description}
           </p>
         </div>
 
@@ -45,8 +46,8 @@ export default function ServicesSection() {
           {/* Left Column: Full vertical image block with video play overlay */}
           <div className="lg:col-span-4 relative rounded-[32px] overflow-hidden min-h-[380px] lg:min-h-auto shadow-md group">
             <img
-              src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80"
-              alt="Lobby receptionist and guests checking in"
+              src={servicesSection.videoCard.bgImage}
+              alt={servicesSection.videoCard.title}
               referrerPolicy="no-referrer"
               className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             />
@@ -56,7 +57,7 @@ export default function ServicesSection() {
             {/* Play Button & Call to Action */}
             <div className="absolute inset-0 flex flex-col justify-between p-8 z-10 text-white">
               <span className="bg-white/20 backdrop-blur-md px-4 py-1.5 rounded-full text-[10px] font-sans font-bold uppercase tracking-wider self-start border border-white/20">
-                Play Tour
+                {servicesSection.videoCard.badgeText}
               </span>
               
               {/* Play Button Icon */}
@@ -74,10 +75,10 @@ export default function ServicesSection() {
               {/* Lobby Greeting Text */}
               <div className="text-left">
                 <h3 className="font-serif text-lg font-semibold tracking-wide mb-1">
-                  Norphel Welcome Experience
+                  {servicesSection.videoCard.title}
                 </h3>
                 <p className="text-xs text-gray-200">
-                  Step into Dhaka's finest sanctuary
+                  {servicesSection.videoCard.subtitle}
                 </p>
               </div>
             </div>
@@ -85,7 +86,7 @@ export default function ServicesSection() {
 
           {/* Right Column: Grid of 4 Service Cards */}
           <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-            {servicesData.map((service) => {
+            {servicesSection.services.map((service) => {
               const isDark = service.isFeatured;
               return (
                 <div
@@ -140,7 +141,7 @@ export default function ServicesSection() {
             {/* Embed Video */}
             <iframe
               className="w-full h-full"
-              src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1"
+              src={servicesSection.videoCard.youtubeEmbedUrl}
               title="Hospitality Tour"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

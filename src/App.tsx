@@ -1,130 +1,80 @@
-import React, { useState, useEffect } from 'react';
-import { Calendar, Users, X, Info, CreditCard, CheckCircle2, Ticket, Printer, Percent, Sparkles } from 'lucide-react';
+import React from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import TrustedSection from './components/TrustedSection';
+import AboutUsSection from './components/AboutUsSection';
 import RoomsSection from './components/RoomsSection';
 import ServicesSection from './components/ServicesSection';
 import Footer from './components/Footer';
-import { BookingDetails, Room } from './types';
-import { roomsData } from './data';
+import { BookingDetails } from './types';
+import { siteConfig } from './config/siteConfig';
+
+const WHATSAPP_NUMBER = siteConfig.hotelInfo.whatsappNumber;
+
+const openWhatsApp = (message: string) => {
+  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+  window.open(url, '_blank');
+};
 
 export default function App() {
-  // Booking modal state
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [bookingSuccess, setBookingSuccess] = useState(false);
-  
-  // Selected fields
-  const [selectedRoomName, setSelectedRoomName] = useState<string>('CANARY ROYAL SUITE');
-  const [checkIn, setCheckIn] = useState<string>('2026-07-22');
-  const [checkOut, setCheckOut] = useState<string>('2026-07-25');
-  const [guests, setGuests] = useState<string>('2');
-  const [guestName, setGuestName] = useState<string>('');
-  const [guestEmail, setGuestEmail] = useState<string>('');
-  const [guestPhone, setGuestPhone] = useState<string>('');
-  const [promoCode, setPromoCode] = useState<string>('');
-  const [appliedDiscount, setAppliedDiscount] = useState<number>(0); // percentage
-  const [promoError, setPromoError] = useState<string>('');
-  const [promoSuccess, setPromoSuccess] = useState<string>('');
 
-  // Ticket detail state for printed confirmation
-  const [ticketNumber, setTicketNumber] = useState<string>('');
+  // Format date to readable string like "22 Jul 2026"
+  const formatDate = (dateStr: string) => {
+    const d = new Date(dateStr);
+    if (isNaN(d.getTime())) return dateStr;
+    return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+  };
 
-  // Calculate stays
-  const [nights, setNights] = useState<number>(3);
-  const selectedRoom = roomsData.find((r) => r.name.toLowerCase() === selectedRoomName.toLowerCase()) || roomsData[0];
-
-  useEffect(() => {
-    const start = new Date(checkIn);
-    const end = new Date(checkOut);
-    if (!isNaN(start.getTime()) && !isNaN(end.getTime()) && end > start) {
-      const diffTime = Math.abs(end.getTime() - start.getTime());
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      setNights(diffDays);
-    } else {
-      setNights(1);
-    }
-  }, [checkIn, checkOut]);
-
-  // Open booking modal
+  // Open WhatsApp with optional room name context
   const handleOpenBooking = (roomName?: string) => {
-    if (roomName) {
-      setSelectedRoomName(roomName);
-    }
-    setBookingSuccess(false);
-    setIsModalOpen(true);
+    const message = roomName
+      ? `Hello, I'm interested in booking the *${roomName}* at *Norphel Retreat, Pelling*. Could you please share the availability and tariff details? Thank you!`
+      : `Hello, I'm interested in booking a stay at *Norphel Retreat, Pelling*. Could you please share the available rooms and tariff details? Thank you!`;
+    openWhatsApp(message);
   };
 
-  // From quick-search form on Hero
+  // Open WhatsApp with booking details from the Hero search bar
   const handleHeroBookingSubmit = (details: BookingDetails) => {
-    setCheckIn(details.checkIn);
-    setCheckOut(details.checkOut);
-    setGuests(details.guests);
-    // Find closest room or default
-    handleOpenBooking();
+    const nights = (() => {
+      const start = new Date(details.checkIn);
+      const end = new Date(details.checkOut);
+      if (!isNaN(start.getTime()) && !isNaN(end.getTime()) && end > start) {
+        return Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
+      }
+      return null;
+    })();
+
+    const nightsText = nights ? ` (${nights} ${nights === 1 ? 'night' : 'nights'})` : '';
+
+    const childrenText = Number(details.children) > 0 ? ` | *Children:* ${details.children}` : '';
+
+    const message = `Hello, I'd like to book a stay at *Norphel Retreat, Pelling*.\n\n`
+      + `*Check-in:* ${formatDate(details.checkIn)}\n`
+      + `*Check-out:* ${formatDate(details.checkOut)}${nightsText}\n`
+      + `*Rooms:* ${details.rooms} | *Adults:* ${details.adults}${childrenText}\n\n`
+      + `Kindly confirm availability and share the tariff. Thank you!`;
+    openWhatsApp(message);
   };
-
-  // Apply promo code
-  const handleApplyPromo = () => {
-    setPromoError('');
-    setPromoSuccess('');
-    const code = promoCode.trim().toUpperCase();
-    if (code === 'NORPHEL20' || code === 'WELCOME20') {
-      setAppliedDiscount(20);
-      setPromoSuccess('20% Discount applied successfully!');
-    } else if (code === 'LUXURY10') {
-      setAppliedDiscount(10);
-      setPromoSuccess('10% Discount applied successfully!');
-    } else if (code) {
-      setPromoError('Invalid promo code. Try "NORPHEL20" or "LUXURY10".');
-      setAppliedDiscount(0);
-    }
-  };
-
-  // Submit final reservation
-  const handleFinalSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!guestName || !guestEmail || !guestPhone) {
-      alert('Please fill out all contact information.');
-      return;
-    }
-
-    // Generate ticket number
-    const randomNum = Math.floor(1000 + Math.random() * 9000);
-    const code = `NR-2026-${randomNum}`;
-    setTicketNumber(code);
-    setBookingSuccess(true);
-  };
-
-  // Pricing math
-  const basePricePerNight = selectedRoom.price;
-  const rawSubtotal = basePricePerNight * nights;
-  const discountAmount = rawSubtotal * (appliedDiscount / 100);
-  const subtotal = rawSubtotal - discountAmount;
-  const vat = Math.round(subtotal * 0.15); // 15% VAT
-  const serviceCharge = Math.round(subtotal * 0.10); // 10% Service Charge
-  const grandTotal = subtotal + vat + serviceCharge;
 
   return (
     <div className="min-h-screen flex flex-col font-sans selection:bg-[#B8860B]/20 selection:text-[#B8860B]">
-      
+
       {/* Navbar Header */}
       <Navbar onBookClick={() => handleOpenBooking()} />
 
       {/* Main Page Sections */}
       <main className="flex-1">
-        
+
         {/* 1. Hero Section */}
         <Hero
           onBookClick={() => handleOpenBooking()}
           onBookSubmit={handleHeroBookingSubmit}
         />
 
-        {/* 2. Rooms Grid */}
-        <RoomsSection onBookClick={handleOpenBooking} />
+        {/* 2. Stats Section */}
+        <AboutUsSection />
 
-        {/* 3. Stats Section */}
-        <TrustedSection />
+        {/* 3. Rooms Grid */}
+        <RoomsSection onBookClick={handleOpenBooking} />
 
         {/* 4. Services Grid */}
         <ServicesSection />
@@ -134,385 +84,25 @@ export default function App() {
       {/* Pre-Footer Banner & Footer */}
       <Footer onBookClick={() => handleOpenBooking()} />
 
-      {/* Highly Interactive Luxury Booking Modal */}
-      {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4 overflow-y-auto">
-          <div className="relative bg-white rounded-[32px] w-full max-w-4xl shadow-2xl overflow-hidden my-8 border border-gray-100 flex flex-col max-h-[90vh]">
-            
-            {/* Modal Header */}
-            <div className="bg-[#2C3E50] text-white px-8 py-5 flex items-center justify-between">
-              <div className="flex items-center space-x-2">
-                <Sparkles className="h-5 w-5 text-[#B8860B]" />
-                <h3 className="font-serif text-lg sm:text-xl font-bold tracking-wide">
-                  Norphel Retreat Reservation
-                </h3>
-              </div>
-              <button
-                onClick={() => setIsModalOpen(false)}
-                className="text-gray-300 hover:text-white p-1 rounded-full hover:bg-white/10 transition-colors"
-              >
-                <X className="h-6 w-6" />
-              </button>
-            </div>
-
-            {/* Modal Content - Scrollable */}
-            <div className="flex-1 overflow-y-auto p-6 sm:p-8">
-              {!bookingSuccess ? (
-                <form onSubmit={handleFinalSubmit} className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                  
-                  {/* Left Column: Input Forms */}
-                  <div className="lg:col-span-7 space-y-6">
-                    <h4 className="font-serif text-lg font-bold text-[#333333] border-b border-gray-100 pb-2">
-                      1. Reservation Details
-                    </h4>
-
-                    {/* Room Selector */}
-                    <div>
-                      <label className="block text-xs font-bold uppercase tracking-wider text-[#666666] mb-2">
-                        Select Suite / Room
-                      </label>
-                      <select
-                        value={selectedRoomName}
-                        onChange={(e) => setSelectedRoomName(e.target.value)}
-                        className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm text-[#333333] font-semibold focus:ring-2 focus:ring-[#B8860B] focus:border-[#B8860B] focus:outline-none bg-white transition-all"
-                      >
-                        {roomsData.map((room) => (
-                          <option key={room.id} value={room.name}>
-                            {room.name} — BDT {room.price.toLocaleString()} / Night
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    {/* Dates & Guests */}
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                      <div>
-                        <label className="block text-xs font-bold uppercase tracking-wider text-[#666666] mb-2">
-                          Check In
-                        </label>
-                        <input
-                          type="date"
-                          value={checkIn}
-                          onChange={(e) => setCheckIn(e.target.value)}
-                          required
-                          className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs sm:text-sm text-[#333333] font-semibold focus:ring-2 focus:ring-[#B8860B] focus:outline-none"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-xs font-bold uppercase tracking-wider text-[#666666] mb-2">
-                          Check Out
-                        </label>
-                        <input
-                          type="date"
-                          value={checkOut}
-                          onChange={(e) => setCheckOut(e.target.value)}
-                          required
-                          className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs sm:text-sm text-[#333333] font-semibold focus:ring-2 focus:ring-[#B8860B] focus:outline-none"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-xs font-bold uppercase tracking-wider text-[#666666] mb-2">
-                          Guests
-                        </label>
-                        <select
-                          value={guests}
-                          onChange={(e) => setGuests(e.target.value)}
-                          className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs sm:text-sm text-[#333333] font-semibold focus:ring-2 focus:ring-[#B8860B] focus:outline-none bg-white"
-                        >
-                          <option value="1">1 Guest</option>
-                          <option value="2">2 Guests</option>
-                          <option value="3">3 Guests</option>
-                          <option value="4">4 Guests</option>
-                        </select>
-                      </div>
-                    </div>
-
-                    <h4 className="font-serif text-lg font-bold text-[#333333] border-b border-gray-100 pb-2 pt-4">
-                      2. Contact Information
-                    </h4>
-
-                    {/* Contact Details */}
-                    <div className="space-y-4">
-                      <div>
-                        <label className="block text-xs font-bold uppercase tracking-wider text-[#666666] mb-2">
-                          Full Name
-                        </label>
-                        <input
-                          type="text"
-                          value={guestName}
-                          onChange={(e) => setGuestName(e.target.value)}
-                          placeholder="Enter your full name"
-                          required
-                          className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm text-[#333333] placeholder-gray-400 focus:ring-2 focus:ring-[#B8860B] focus:outline-none"
-                        />
-                      </div>
-
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-xs font-bold uppercase tracking-wider text-[#666666] mb-2">
-                            Email Address
-                          </label>
-                          <input
-                            type="email"
-                            value={guestEmail}
-                            onChange={(e) => setGuestEmail(e.target.value)}
-                            placeholder="name@example.com"
-                            required
-                            className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm text-[#333333] placeholder-gray-400 focus:ring-2 focus:ring-[#B8860B] focus:outline-none"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-xs font-bold uppercase tracking-wider text-[#666666] mb-2">
-                            Phone Number
-                          </label>
-                          <input
-                            type="tel"
-                            value={guestPhone}
-                            onChange={(e) => setGuestPhone(e.target.value)}
-                            placeholder="+880 XXXXX-XXXXXX"
-                            required
-                            className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm text-[#333333] placeholder-gray-400 focus:ring-2 focus:ring-[#B8860B] focus:outline-none"
-                          />
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Promo Codes */}
-                    <div className="pt-4">
-                      <label className="block text-xs font-bold uppercase tracking-wider text-[#666666] mb-2">
-                        Promo Code
-                      </label>
-                      <div className="flex gap-2">
-                        <input
-                          type="text"
-                          value={promoCode}
-                          onChange={(e) => setPromoCode(e.target.value)}
-                          placeholder="e.g. NORPHEL20"
-                          className="px-4 py-2.5 rounded-xl border border-gray-200 text-sm text-[#333333] placeholder-gray-400 focus:ring-2 focus:ring-[#B8860B] focus:outline-none flex-1 uppercase"
-                        />
-                        <button
-                          type="button"
-                          onClick={handleApplyPromo}
-                          className="px-5 py-2.5 bg-[#2C3E50] hover:bg-slate-800 text-white rounded-xl text-xs sm:text-sm font-sans font-bold transition-colors cursor-pointer"
-                        >
-                          Apply
-                        </button>
-                      </div>
-                      {promoError && (
-                        <p className="text-xs text-red-600 font-semibold mt-1.5">{promoError}</p>
-                      )}
-                      {promoSuccess && (
-                        <p className="text-xs text-green-700 font-semibold mt-1.5 flex items-center gap-1">
-                          <CheckCircle2 className="h-3.5 w-3.5" /> {promoSuccess}
-                        </p>
-                      )}
-                      <span className="text-[11px] text-gray-500 block mt-1.5">
-                        💡 Hint: Use promo code <strong className="text-[#B8860B] font-bold">NORPHEL20</strong> for 20% off.
-                      </span>
-                    </div>
-
-                  </div>
-
-                  {/* Right Column: Pricing Receipt */}
-                  <div className="lg:col-span-5 bg-gray-50 rounded-[24px] p-6 sm:p-8 flex flex-col justify-between border border-gray-100">
-                    <div>
-                      <h4 className="font-serif text-lg font-bold text-[#333333] border-b border-gray-200 pb-3 mb-4">
-                        Price Breakdown
-                      </h4>
-
-                      {/* Summary row */}
-                      <div className="space-y-4 text-sm font-sans font-semibold text-[#666666]">
-                        <div className="flex justify-between items-center text-[#333333]">
-                          <span>Suite Type:</span>
-                          <span className="text-right text-xs truncate max-w-[150px]">
-                            {selectedRoom.name}
-                          </span>
-                        </div>
-
-                        <div className="flex justify-between">
-                          <span>Price per night:</span>
-                          <span className="text-right text-[#333333]">
-                            BDT {basePricePerNight.toLocaleString()}
-                          </span>
-                        </div>
-
-                        <div className="flex justify-between">
-                          <span>Total stay:</span>
-                          <span className="text-right text-[#333333]">
-                            {nights} {nights === 1 ? 'Night' : 'Nights'}
-                          </span>
-                        </div>
-
-                        <div className="border-t border-gray-200 my-2" />
-
-                        <div className="flex justify-between text-[#333333]">
-                          <span>Subtotal:</span>
-                          <span className="font-bold">
-                            BDT {rawSubtotal.toLocaleString()}
-                          </span>
-                        </div>
-
-                        {appliedDiscount > 0 && (
-                          <div className="flex justify-between text-green-700">
-                            <span className="flex items-center gap-1">
-                              <Percent className="h-3.5 w-3.5" /> Discount ({appliedDiscount}%):
-                            </span>
-                            <span className="font-bold">
-                              - BDT {discountAmount.toLocaleString()}
-                            </span>
-                          </div>
-                        )}
-
-                        <div className="flex justify-between">
-                          <span>VAT (15%):</span>
-                          <span>BDT {vat.toLocaleString()}</span>
-                        </div>
-
-                        <div className="flex justify-between">
-                          <span>Service Charge (10%):</span>
-                          <span>BDT {serviceCharge.toLocaleString()}</span>
-                        </div>
-
-                        <div className="border-t border-gray-200 my-2" />
-
-                        <div className="flex justify-between items-baseline pt-2">
-                          <span className="text-base font-serif font-bold text-[#333333]">Total Price:</span>
-                          <span className="text-xl sm:text-2xl font-sans font-black text-[#B8860B]">
-                            BDT {grandTotal.toLocaleString()}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Final CTA */}
-                    <div className="pt-8 space-y-3">
-                      <div className="flex items-start space-x-2.5 text-[11px] text-[#666666]">
-                        <Info className="h-4.5 w-4.5 text-[#B8860B] flex-shrink-0" />
-                        <p className="leading-relaxed">
-                          Your card is not charged yet. Complete this reservation to request room availability and lock in the price.
-                        </p>
-                      </div>
-
-                      <button
-                        type="submit"
-                        className="w-full py-4 rounded-full bg-[#B8860B] hover:bg-[#9B7008] text-white font-sans font-bold tracking-wider uppercase transition-colors duration-300 shadow-md flex items-center justify-center gap-2 cursor-pointer text-sm"
-                      >
-                        <CreditCard className="h-4.5 w-4.5" /> Confirm Stay Booking
-                      </button>
-                    </div>
-
-                  </div>
-                </form>
-              ) : (
-                /* Ticket success view */
-                <div className="py-8 text-center max-w-lg mx-auto flex flex-col items-center">
-                  <div className="h-16 w-16 bg-green-50 rounded-full flex items-center justify-center text-green-600 mb-6 border border-green-200">
-                    <CheckCircle2 className="h-10 w-10 fill-green-50" />
-                  </div>
-                  
-                  <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#333333] mb-3">
-                    Reservation Confirmed!
-                  </h3>
-                  
-                  <p className="font-sans text-sm text-[#666666] leading-relaxed mb-8">
-                    Your luxury stay reservation has been registered. We have sent a confirmation email containing full coordinates and check-in instructions to <strong className="text-[#333333]">{guestEmail}</strong>.
-                  </p>
-
-                  {/* Elegant printable Ticket card */}
-                  <div className="w-full bg-[#F3ECE0] rounded-3xl border border-[#D5C6AC] shadow-md p-6 text-left relative overflow-hidden mb-8">
-                    {/* Security borders decoration */}
-                    <div className="absolute top-0 left-0 w-full h-1.5 bg-[#B8860B]" />
-                    <div className="absolute -left-3 top-1/2 -translate-y-1/2 h-6 w-6 rounded-full bg-white border-r border-[#D5C6AC]" />
-                    <div className="absolute -right-3 top-1/2 -translate-y-1/2 h-6 w-6 rounded-full bg-white border-l border-[#D5C6AC]" />
-
-                    <div className="flex justify-between items-start mb-6">
-                      <div className="space-y-1">
-                        <span className="font-serif font-extrabold text-[#333333] tracking-wider text-base">
-                          NORPHEL RETREAT
-                        </span>
-                        <p className="text-[10px] uppercase font-sans tracking-widest text-[#B8860B] font-bold">
-                          Luxury Hospitality Guest ticket
-                        </p>
-                      </div>
-                      <Ticket className="h-7 w-7 text-[#B8860B] opacity-75" />
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-y-4 gap-x-6 text-xs sm:text-sm font-semibold font-sans">
-                      <div>
-                        <span className="text-[10px] text-[#666666] block uppercase tracking-wider mb-1">
-                          Reservation ID
-                        </span>
-                        <span className="text-[#333333] font-bold tracking-wider">{ticketNumber}</span>
-                      </div>
-                      
-                      <div>
-                        <span className="text-[10px] text-[#666666] block uppercase tracking-wider mb-1">
-                          Guest Name
-                        </span>
-                        <span className="text-[#333333] font-bold truncate block">{guestName}</span>
-                      </div>
-
-                      <div>
-                        <span className="text-[10px] text-[#666666] block uppercase tracking-wider mb-1">
-                          Room/Suite
-                        </span>
-                        <span className="text-[#333333] font-bold line-clamp-1">{selectedRoom.name}</span>
-                      </div>
-
-                      <div>
-                        <span className="text-[10px] text-[#666666] block uppercase tracking-wider mb-1">
-                          Stay Stay Stay
-                        </span>
-                        <span className="text-[#333333] font-bold">
-                          {nights} {nights === 1 ? 'Night' : 'Nights'} ({guests} {guests === '1' ? 'Guest' : 'Guests'})
-                        </span>
-                      </div>
-
-                      <div>
-                        <span className="text-[10px] text-[#666666] block uppercase tracking-wider mb-1">
-                          Check In
-                        </span>
-                        <span className="text-[#333333] font-bold">{checkIn}</span>
-                      </div>
-
-                      <div>
-                        <span className="text-[10px] text-[#666666] block uppercase tracking-wider mb-1">
-                          Check Out
-                        </span>
-                        <span className="text-[#333333] font-bold">{checkOut}</span>
-                      </div>
-                    </div>
-
-                    <div className="border-t border-dashed border-[#D5C6AC] mt-6 pt-5 flex justify-between items-baseline">
-                      <span className="text-xs font-serif font-bold text-[#333333]">Guaranteed Price:</span>
-                      <span className="text-base sm:text-lg font-sans font-black text-[#B8860B]">
-                        BDT {grandTotal.toLocaleString()}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Actions */}
-                  <div className="flex flex-col sm:flex-row gap-4 w-full">
-                    <button
-                      onClick={() => window.print()}
-                      className="flex-1 py-3.5 rounded-full border border-gray-200 hover:bg-gray-50 font-sans font-bold text-sm text-[#333333] transition-colors flex items-center justify-center gap-2 cursor-pointer"
-                    >
-                      <Printer className="h-4.5 w-4.5" /> Print Ticket
-                    </button>
-                    
-                    <button
-                      onClick={() => setIsModalOpen(false)}
-                      className="flex-1 py-3.5 rounded-full bg-[#B8860B] hover:bg-[#9B7008] text-white font-sans font-bold text-sm tracking-wide transition-all uppercase shadow-md cursor-pointer"
-                    >
-                      Done
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
+      {/* WhatsApp Floating Action Button */}
+      <a
+        href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hello, I'd like to know more about Norphel Retreat, Pelling. Could you help me?")}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Chat on WhatsApp"
+        className="fixed bottom-6 right-6 z-50 group"
+      >
+        <span className="absolute inset-0 rounded-full bg-[#25D366] animate-ping opacity-30 group-hover:opacity-50" />
+        <span className="relative flex items-center justify-center h-14 w-14 rounded-full bg-[#25D366] hover:bg-[#1EBE57] shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" className="h-7 w-7 fill-white">
+            <path d="M16.004 0h-.008C7.174 0 0 7.176 0 16c0 3.5 1.128 6.744 3.046 9.378L1.054 31.29l6.118-1.96A15.9 15.9 0 0 0 16.004 32C24.826 32 32 24.822 32 16S24.826 0 16.004 0zm9.35 22.606c-.39 1.1-1.932 2.014-3.164 2.28-.844.18-1.946.324-5.66-1.216-4.752-1.97-7.81-6.79-8.044-7.104-.226-.314-1.9-2.53-1.9-4.826s1.2-3.426 1.628-3.894c.39-.426.924-.616 1.244-.616.314 0 .63.002.906.016.312.014.686.038 1.046.81.428.916 1.44 3.518 1.566 3.774.128.256.256.598.076.912-.168.322-.312.522-.568.808-.256.286-.504.508-.76.818-.232.274-.494.566-.206.994.286.426 1.276 2.104 2.74 3.408 1.882 1.678 3.466 2.198 3.956 2.44.49.242.776.204 1.062-.124.292-.33 1.254-1.462 1.588-1.964.33-.502.664-.418 1.12-.25.458.166 2.912 1.374 3.41 1.624.498.25.83.374.952.582.122.208.122 1.214-.268 2.314z"/>
+          </svg>
+        </span>
+        {/* Tooltip */}
+        <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-white text-gray-800 text-xs font-semibold px-3 py-2 rounded-lg shadow-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+          Chat with us
+        </span>
+      </a>
 
     </div>
   );

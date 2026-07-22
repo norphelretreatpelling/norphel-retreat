@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Heart, ArrowRight } from 'lucide-react';
-import { roomCategories, roomsData } from '../data';
-import { Room } from '../types';
+import { ArrowRight } from 'lucide-react';
+import { siteConfig } from '../config/siteConfig';
 
 interface RoomsSectionProps {
   onBookClick: (roomName?: string) => void;
@@ -9,17 +8,10 @@ interface RoomsSectionProps {
 
 export default function RoomsSection({ onBookClick }: RoomsSectionProps) {
   const [activeCategory, setActiveCategory] = useState('all');
-  const [favorites, setFavorites] = useState<Record<string, boolean>>({
-    'room-1': true, // default favorited
-  });
-
-  const toggleFavorite = (id: string, e: React.MouseEvent) => {
-    e.stopPropagation();
-    setFavorites((prev) => ({ ...prev, [id]: !prev[id] }));
-  };
+  const { roomsSection } = siteConfig;
 
   // Filter rooms based on selection
-  const filteredRooms = roomsData.filter((room) => {
+  const filteredRooms = roomsSection.rooms.filter((room) => {
     if (activeCategory === 'all') return true;
     return room.type === activeCategory;
   });
@@ -32,22 +24,22 @@ export default function RoomsSection({ onBookClick }: RoomsSectionProps) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-12">
           <div className="lg:col-span-7">
             <span className="font-sans text-xs sm:text-sm font-bold tracking-[0.2em] text-[#B8860B] uppercase block mb-3">
-              Unrivaled Accommodations
+              {roomsSection.eyebrow}
             </span>
             <h2 className="font-roboto text-3xl sm:text-4xl md:text-5xl font-semibold text-[#333333] tracking-wide leading-tight">
-              Elegant Rooms and Suites You'll Love
+              {roomsSection.title}
             </h2>
           </div>
           <div className="lg:col-span-5 lg:pt-6">
             <p className="font-sans text-[#666666] text-sm sm:text-base leading-relaxed">
-              Each room at Sila is thoughtfully designed with contemporary aesthetics and comfort in mind, featuring plush bedding, premium toiletries, and modern entertainment systems.
+              {roomsSection.description}
             </p>
           </div>
         </div>
 
         {/* Filter Bar */}
         <div className="flex flex-wrap items-center justify-start gap-3 mb-12 overflow-x-auto pb-2 scrollbar-none">
-          {roomCategories.map((cat) => (
+          {roomsSection.categories.map((cat) => (
             <button
               key={cat.key}
               onClick={() => setActiveCategory(cat.key)}

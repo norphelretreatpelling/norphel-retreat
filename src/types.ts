@@ -29,5 +29,6 @@ export interface BookingDetails {
   checkIn: string;
   checkOut: string;
   rooms: string;
-  guests: string;
+  adults: string;
+  children: string;
 }

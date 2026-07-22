@@ -1,11 +1,22 @@
-import React, { useState } from 'react';
-import { Facebook, Instagram, Twitter, Youtube, Mail, MapPin, Phone, ArrowRight, Check } from 'lucide-react';
+import React from 'react';
+import { Facebook, Instagram, Twitter, Youtube, Mail, MapPin, Phone } from 'lucide-react';
+import { siteConfig } from '../config/siteConfig';
 
 interface FooterProps {
   onBookClick: () => void;
 }
 
 export default function Footer({ onBookClick }: FooterProps) {
+  const { footer, hotelInfo } = siteConfig;
+  const { preFooterBanner } = footer;
+
+  const socialIcons = [
+    { icon: Facebook, href: hotelInfo.socials.facebook },
+    { icon: Instagram, href: hotelInfo.socials.instagram },
+    { icon: Twitter, href: hotelInfo.socials.twitter },
+    { icon: Youtube, href: hotelInfo.socials.youtube },
+  ];
+
   return (
     <footer className="relative bg-[#F8F8F8] pt-12">
       {/* Pre-Footer Banner Frame */}
@@ -14,8 +25,8 @@ export default function Footer({ onBookClick }: FooterProps) {
           {/* Background Image */}
           <div className="absolute inset-0">
             <img
-              src="/cover.jpg"
-              alt="Norphel Retreat lobby interior"
+              src={preFooterBanner.bgImage}
+              alt={`${preFooterBanner.titleAccent} lobby interior`}
               referrerPolicy="no-referrer"
               className="w-full h-full object-cover opacity-75"
             />
@@ -25,19 +36,19 @@ export default function Footer({ onBookClick }: FooterProps) {
           {/* Banner Content */}
           <div className="relative z-10 w-full text-center px-6 sm:px-12 py-12 text-white">
             <h2 className="font-sans text-2xl sm:text-3xl md:text-4xl font-bold tracking-wide mb-4">
-              Discover Tranquility With
+              {preFooterBanner.title}
               <span className="text-[#B8860B] font-playwrite block text-3xl sm:text-5xl md:text-5xl lg:text-5xl xl:text-6xl tracking-wide mt-4 normal-case font-normal leading-relaxed">
-                Norphel Retreat
+                {preFooterBanner.titleAccent}
               </span>
             </h2>
             <p className="font-sans text-sm sm:text-base text-gray-200/90 max-w-2xl mx-auto mb-8 leading-relaxed">
-              Your ideal destination for relaxation, rejuvenation, and memorable experiences.
+              {preFooterBanner.description}
             </p>
             <button
               onClick={onBookClick}
               className="px-8 py-3.5 rounded-full bg-[#B8860B] hover:bg-[#9B7008] text-white font-sans font-bold tracking-wider uppercase transition-colors duration-300 shadow-lg cursor-pointer text-sm"
             >
-              Book Your Stay
+              {preFooterBanner.buttonText}
             </button>
           </div>
         </div>
@@ -48,29 +59,28 @@ export default function Footer({ onBookClick }: FooterProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 xl:gap-12 pb-12">
 
-            {/* Left Column: Brand & Newsletter */}
+            {/* Left Column: Brand & Socials */}
             <div className="lg:col-span-5 flex flex-col space-y-6">
               {/* Logo */}
               <div className="flex items-baseline space-x-1">
                 <span className="font-sans text-sm sm:text-xl font-bold tracking-wider text-[#333333] leading-tight">
-                  NORPHEL <br />
-                  RETREAT
+                  {hotelInfo.name.split(' ').map((word, idx) => (
+                    <React.Fragment key={idx}>
+                      {word}
+                      {idx === 0 && <br />}
+                    </React.Fragment>
+                  ))}
                   <span className="h-2 w-2 rounded-full bg-[#B8860B] inline-block ml-1 mb-0.5"></span>
                 </span>
               </div>
 
               <p className="font-sans text-sm text-[#666666] leading-relaxed">
-                A world where comfort, elegance, and tranquility come together to create unforgettable moments.
+                {footer.brandDescription}
               </p>
 
               {/* Social Icons */}
               <div className="flex items-center space-x-3.5 pt-4">
-                {[
-                  { icon: Facebook, href: 'https://facebook.com' },
-                  { icon: Instagram, href: 'https://instagram.com' },
-                  { icon: Twitter, href: 'https://twitter.com' },
-                  { icon: Youtube, href: 'https://youtube.com' }
-                ].map((social, i) => (
+                {socialIcons.map((social, i) => (
                   <a
                     key={i}
                     href={social.href}
@@ -84,19 +94,13 @@ export default function Footer({ onBookClick }: FooterProps) {
               </div>
             </div>
 
-            {/* Three Middle Columns: Nav Lists */}
-
             {/* Explore List */}
             <div className="lg:col-span-3 lg:pl-12">
               <h4 className="font-serif text-lg font-bold text-[#333333] mb-5 tracking-wide">
                 Explore
               </h4>
               <ul className="space-y-3.5">
-                {[
-                  { name: 'Home', href: '#home' },
-                  { name: 'Rooms & Suites', href: '#rooms' },
-                  { name: 'About', href: '#about' }
-                ].map((item, i) => (
+                {footer.exploreLinks.map((item, i) => (
                   <li key={i}>
                     <a
                       href={item.href}
@@ -109,9 +113,7 @@ export default function Footer({ onBookClick }: FooterProps) {
               </ul>
             </div>
 
-
-
-            {/* Far Right Column: Contacts */}
+            {/* Contacts */}
             <div id="contact" className="lg:col-span-4 space-y-5 lg:pl-0">
               <h4 className="font-serif text-lg font-bold text-[#333333] mb-5 tracking-wide">
                 Get in touch
@@ -121,9 +123,7 @@ export default function Footer({ onBookClick }: FooterProps) {
                 <li className="flex items-start space-x-3 text-sm text-[#666666]">
                   <MapPin className="h-5 w-5 text-[#B8860B] flex-shrink-0 mt-0.5" />
                   <span className="font-sans leading-relaxed">
-                    Pine Crest, Pelling-Rimbi Road, near Udaan,
-                    Pelling City, Pelling,
-                    Sikkim 737113.
+                    {hotelInfo.address}
                   </span>
                 </li>
 
@@ -131,18 +131,15 @@ export default function Footer({ onBookClick }: FooterProps) {
                 <li className="flex items-start space-x-3 text-sm text-[#666666]">
                   <Mail className="h-5 w-5 text-[#B8860B] flex-shrink-0 mt-0.5" />
                   <div className="flex flex-col space-y-1">
-                    <a
-                      href="mailto:hotlenorphelpelling@gmail.com"
-                      className="font-sans hover:text-[#B8860B] transition-colors whitespace-nowrap"
-                    >
-                      hotlenorphelpelling@gmail.com
-                    </a>
-                    <a
-                      href="mailto:reservations.norphel@gmail.com"
-                      className="font-sans hover:text-[#B8860B] transition-colors whitespace-nowrap"
-                    >
-                      reservations.norphel@gmail.com
-                    </a>
+                    {hotelInfo.emails.map((email, idx) => (
+                      <a
+                        key={idx}
+                        href={`mailto:${email}`}
+                        className="font-sans hover:text-[#B8860B] transition-colors whitespace-nowrap"
+                      >
+                        {email}
+                      </a>
+                    ))}
                   </div>
                 </li>
 
@@ -150,18 +147,15 @@ export default function Footer({ onBookClick }: FooterProps) {
                 <li className="flex items-start space-x-3 text-sm text-[#666666]">
                   <Phone className="h-5 w-5 text-[#B8860B] flex-shrink-0 mt-0.5" />
                   <div className="flex flex-col space-y-1">
-                    <a
-                      href="tel:+919127504733"
-                      className="font-sans hover:text-[#B8860B] transition-colors leading-relaxed"
-                    >
-                      +91 91275 04733
-                    </a>
-                    <a
-                      href="tel:+919609911471"
-                      className="font-sans hover:text-[#B8860B] transition-colors leading-relaxed"
-                    >
-                      +91 96099 11471
-                    </a>
+                    {hotelInfo.phones.map((phone, idx) => (
+                      <a
+                        key={idx}
+                        href={`tel:${phone.replace(/\s+/g, '')}`}
+                        className="font-sans hover:text-[#B8860B] transition-colors leading-relaxed"
+                      >
+                        {phone}
+                      </a>
+                    ))}
                   </div>
                 </li>
               </ul>
@@ -171,11 +165,13 @@ export default function Footer({ onBookClick }: FooterProps) {
 
           {/* Copyright Divider */}
           <div className="border-t border-[#D5C6AC]/60 pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-[#666666] font-sans font-semibold">
-            <p>© 2026 Norphel Retreat. All rights reserved.</p>
+            <p>{footer.copyrightText}</p>
             <div className="flex space-x-6 mt-4 md:mt-0">
-              <a href="#home" className="hover:text-[#B8860B] transition-colors">Terms of Service</a>
-              <a href="#home" className="hover:text-[#B8860B] transition-colors">Privacy Policy</a>
-              <a href="#home" className="hover:text-[#B8860B] transition-colors">Sitemap</a>
+              {footer.legalLinks.map((link, idx) => (
+                <a key={idx} href={link.href} className="hover:text-[#B8860B] transition-colors">
+                  {link.name}
+                </a>
+              ))}
             </div>
           </div>
         </div>
