@@ -62,16 +62,16 @@ export default function Footer({ onBookClick }: FooterProps) {
             {/* Left Column: Brand & Socials */}
             <div className="lg:col-span-5 flex flex-col space-y-6">
               {/* Logo */}
-              <div className="flex items-baseline space-x-1">
-                <span className="font-sans text-sm sm:text-xl font-bold tracking-wider text-[#333333] leading-tight">
-                  {hotelInfo.name.split(' ').map((word, idx) => (
-                    <React.Fragment key={idx}>
-                      {word}
-                      {idx === 0 && <br />}
-                    </React.Fragment>
-                  ))}
-                  <span className="h-2 w-2 rounded-full bg-[#B8860B] inline-block ml-1 mb-0.5"></span>
-                </span>
+              <div className="flex items-baseline">
+                <div className="font-sans text-sm sm:text-xl font-bold tracking-wider text-[#333333] leading-tight">
+                  <div>NORPHEL</div>
+                  <div className="flex items-baseline">
+                    <span>RETREAT</span>
+                    <span className="text-[#B8860B] font-extrabold px-0.5 sm:px-1">|</span>
+                    <span>{hotelInfo.subTitle || 'PELLING'}</span>
+                    <span className="h-2 w-2 rounded-full bg-[#B8860B] inline-block ml-1"></span>
+                  </div>
+                </div>
               </div>
 
               <p className="font-sans text-sm text-[#666666] leading-relaxed">

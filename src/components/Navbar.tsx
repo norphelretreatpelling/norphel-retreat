@@ -17,15 +17,15 @@ export default function Navbar({ onBookClick }: NavbarProps) {
           {/* Logo Area */}
           <div className="flex-shrink-0 flex items-center">
             <a href="#home" className="flex items-center">
-              <span className="font-sans text-sm sm:text-xl font-bold tracking-wider text-[#333333] leading-tight">
-                {hotelInfo.name.split(' ').map((word, idx) => (
-                  <React.Fragment key={idx}>
-                    {word}
-                    {idx === 0 && <br />}
-                  </React.Fragment>
-                ))}
-                <span className="h-2 w-2 rounded-full bg-[#B8860B] inline-block ml-1 mb-0.5"></span>
-              </span>
+              <div className="font-sans text-sm sm:text-xl font-bold tracking-wider text-[#333333] leading-tight">
+                <div>NORPHEL</div>
+                <div className="flex items-baseline">
+                  <span>RETREAT</span>
+                  <span className="text-[#B8860B] font-extrabold px-0.5 sm:px-1">|</span>
+                  <span>{hotelInfo.subTitle || 'PELLING'}</span>
+                  <span className="h-2 w-2 rounded-full bg-[#B8860B] inline-block ml-1"></span>
+                </div>
+              </div>
             </a>
           </div>
 
@@ -73,9 +73,8 @@ export default function Navbar({ onBookClick }: NavbarProps) {
 
       {/* Mobile Menu */}
       <div
-        className={`lg:hidden transition-all duration-300 ease-in-out ${
-          isOpen ? 'max-h-screen opacity-100 border-b border-[#EDEDED]' : 'max-h-0 opacity-0 overflow-hidden'
-        } bg-[#F8F8F8]`}
+        className={`lg:hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-screen opacity-100 border-b border-[#EDEDED]' : 'max-h-0 opacity-0 overflow-hidden'
+          } bg-[#F8F8F8]`}
       >
         <div className="px-4 pt-2 pb-6 space-y-3 sm:px-6">
           {navbar.navLinks.map((link) => (
