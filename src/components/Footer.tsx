@@ -132,8 +132,8 @@ export default function Footer({ onBookClick }: FooterProps) {
                     rel="noopener noreferrer"
                     className="group flex items-start space-x-3 hover:text-[#B8860B] transition-colors cursor-pointer"
                   >
-                    <MapPin className="h-5 w-5 text-[#B8860B] flex-shrink-0 mt-0.5 animate-bounce group-hover:scale-110 transition-transform" />
-                    <span className="font-sans leading-relaxed group-hover:underline underline-offset-4 decoration-[#B8860B]/40">
+                    <MapPin className="h-5 w-5 text-[#B8860B] flex-shrink-0 mt-0.5 group-hover:scale-110 transition-transform" />
+                    <span className="font-sans leading-relaxed underline">
                       {hotelInfo.address}
                     </span>
                   </a>
