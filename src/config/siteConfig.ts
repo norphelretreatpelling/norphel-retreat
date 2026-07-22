@@ -16,6 +16,7 @@ export interface SiteConfig {
     phones: string[];
     emails: string[];
     address: string;
+    googleMapsUrl?: string;
     socials: {
       facebook: string;
       instagram: string;
@@ -107,7 +108,8 @@ export const siteConfig: SiteConfig = {
     whatsappNumber: "919127504733",
     phones: ["+91 91275 04733", "+91 96099 11471"],
     emails: ["hotlenorphelpelling@gmail.com", "reservations.norphel@gmail.com"],
-    address: "Pine Crest, Pelling-Rimbi Road, near Udaan, Pelling City, Sikkim 737113.",
+    address: "Pelling-Rimbi Road, near Udaan, Pelling City, Sikkim 737113.",
+    googleMapsUrl: "https://maps.google.com/?q=NORPHEL%20RETREAT%20PELLING,%20PINE%20CREST,%20near%20UDAAN,%20LOWER,%20Pelling,%20Sikkim%20737113&ftid=0x39e6872a517cbfaf:0xe189ad5e34d355ee&entry=gps&shh=CAE&lucs=,94297699,94231188,94280568,47071704,94218641,100808654,94282134,100813469,94286869,100820247,100813009,100804975&g_st=iwb",
     socials: {
       facebook: "https://facebook.com",
       instagram: "https://instagram.com",
@@ -139,7 +141,7 @@ export const siteConfig: SiteConfig = {
       "A world where comfort, elegance, and tranquility come together to create unforgettable moments.",
     primaryCtaText: "Book Your Stay",
     secondaryCtaText: "Explore Rooms",
-    bgImage: "/cover.jpg",
+    bgImage: "https://images.unsplash.com/photo-1569734149399-95ad5f8ea2c3?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     roomOptions: [
       { value: "1", label: "1 Room" },
       { value: "2", label: "2 Rooms" },
@@ -281,7 +283,7 @@ export const siteConfig: SiteConfig = {
       description:
         "Your ideal destination for relaxation, rejuvenation, and memorable experiences.",
       buttonText: "Book Your Stay",
-      bgImage: "/cover.jpg",
+      bgImage: "https://images.unsplash.com/photo-1569734149399-95ad5f8ea2c3?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
     brandDescription:
       "A world where comfort, elegance, and tranquility come together to create unforgettable moments.",

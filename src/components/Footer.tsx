@@ -120,11 +120,23 @@ export default function Footer({ onBookClick }: FooterProps) {
               </h4>
               <ul className="space-y-4">
                 {/* Address */}
-                <li className="flex items-start space-x-3 text-sm text-[#666666]">
-                  <MapPin className="h-5 w-5 text-[#B8860B] flex-shrink-0 mt-0.5" />
-                  <span className="font-sans leading-relaxed">
-                    {hotelInfo.address}
-                  </span>
+                <li className="text-sm text-[#666666]">
+                  <a
+                    href={
+                      hotelInfo.googleMapsUrl ||
+                      `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                        `${hotelInfo.name} ${hotelInfo.address}`
+                      )}`
+                    }
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-start space-x-3 hover:text-[#B8860B] transition-colors cursor-pointer"
+                  >
+                    <MapPin className="h-5 w-5 text-[#B8860B] flex-shrink-0 mt-0.5 animate-bounce group-hover:scale-110 transition-transform" />
+                    <span className="font-sans leading-relaxed group-hover:underline underline-offset-4 decoration-[#B8860B]/40">
+                      {hotelInfo.address}
+                    </span>
+                  </a>
                 </li>
 
                 {/* Email */}
