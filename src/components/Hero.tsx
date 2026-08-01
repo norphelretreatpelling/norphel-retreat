@@ -113,6 +113,8 @@ export default function Hero({ onBookClick, onBookSubmit }: HeroProps) {
           <img
             src={hero.bgImage}
             alt={`${hero.headingAccent} lobby interior`}
+            loading="eager"
+            fetchPriority="high"
             referrerPolicy="no-referrer"
             className="w-full h-full object-cover object-center opacity-90 scale-100 transition-transform duration-[10s]"
           />

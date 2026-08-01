@@ -141,7 +141,7 @@ export const siteConfig: SiteConfig = {
       "A world where comfort, elegance, and tranquility come together to create unforgettable moments.",
     primaryCtaText: "Book Your Stay",
     secondaryCtaText: "Explore Rooms",
-    bgImage: "/entrance.PNG",
+    bgImage: "/entrance.jpg",
     roomOptions: [
       { value: "1", label: "1 Room" },
       { value: "2", label: "2 Rooms" },
@@ -174,9 +174,9 @@ export const siteConfig: SiteConfig = {
       { id: "amenity-parking", label: "Parking Area", iconName: "Car" },
     ],
     collageImages: [
-      "/passage.PNG",
-      "/stairway.PNG",
-      "/curtain.PNG",
+      "/passage.jpg",
+      "/stairway.jpg",
+      "/curtain.jpg",
     ],
   },
 
@@ -201,7 +201,7 @@ export const siteConfig: SiteConfig = {
         type: "executive",
         location: "Norphel Retreat",
         price: 1200,
-        image: "/room1.PNG",
+        image: "/room1.jpg",
       },
       {
         id: "room-2",
@@ -209,7 +209,7 @@ export const siteConfig: SiteConfig = {
         type: "premium",
         location: "Norphel Retreat",
         price: 1600,
-        image: "/room2.PNG",
+        image: "/room2.jpg",
       },
       {
         id: "room-3",
@@ -217,7 +217,7 @@ export const siteConfig: SiteConfig = {
         type: "luxury",
         location: "Norphel Retreat",
         price: 2100,
-        image: "/window.PNG",
+        image: "/window.jpg",
       },
     ],
   },
@@ -231,7 +231,7 @@ export const siteConfig: SiteConfig = {
     description:
       "Our Value lies in delivering warm hospitality, honest service, and consistent quality, ensuring every guest feels genuinely cared for, respected, and welcomed like family throughout their stay.",
     videoCard: {
-      bgImage: "/stairway.PNG",
+      bgImage: "/stairway.jpg",
       badgeText: "Play Tour",
       title: "Norphel Welcome Experience",
       subtitle: "Step into Pelling's finest sanctuary",
@@ -279,7 +279,7 @@ export const siteConfig: SiteConfig = {
       description:
         "Your ideal destination for relaxation, rejuvenation, and memorable experiences.",
       buttonText: "Book Your Stay",
-      bgImage: "/front.PNG",
+      bgImage: "/front.jpg",
     },
     brandDescription:
       "A world where comfort, elegance, and tranquility come together to create unforgettable moments.",

@@ -69,6 +69,8 @@ export default function AboutUsSection() {
             <img
               src={aboutSection.collageImages[0]}
               alt="Luxury room view"
+              loading="lazy"
+              decoding="async"
               referrerPolicy="no-referrer"
               className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
             />
@@ -80,6 +82,8 @@ export default function AboutUsSection() {
               <img
                 src={aboutSection.collageImages[1]}
                 alt="Retreat poolside"
+                loading="lazy"
+                decoding="async"
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
               />
@@ -89,6 +93,8 @@ export default function AboutUsSection() {
               <img
                 src={aboutSection.collageImages[2]}
                 alt="Exquisite lounge area"
+                loading="lazy"
+                decoding="async"
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
               />

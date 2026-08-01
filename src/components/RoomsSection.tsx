@@ -67,6 +67,8 @@ export default function RoomsSection({ onBookClick }: RoomsSectionProps) {
                   <img
                     src={room.image}
                     alt={room.name}
+                    loading="lazy"
+                    decoding="async"
                     referrerPolicy="no-referrer"
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
