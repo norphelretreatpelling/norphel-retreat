@@ -102,21 +102,39 @@ export default function Hero({ onBookClick, onBookSubmit }: HeroProps) {
     onBookSubmit({ checkIn, checkOut, rooms, adults: String(adults), children: String(children) });
   };
 
+  const [isMainImageLoaded, setIsMainImageLoaded] = useState(false);
+
   const { hero } = siteConfig;
 
   return (
     <section id="home" className="relative pb-16 lg:pb-20 pt-6 bg-[#F8F8F8]">
       {/* Grand Hotel Dusk Background Frame with highly rounded luxury frame */}
       <div className="relative mx-4 sm:mx-6 lg:mx-8 xl:mx-12 rounded-[40px] sm:rounded-[48px] overflow-hidden min-h-[480px] sm:min-h-[440px] lg:min-h-[520px] xl:min-h-[560px] bg-slate-950 shadow-2xl">
-        {/* Background Image */}
+        {/* Background Image Container */}
         <div className="absolute inset-0">
+          {/* Low-res blurred placeholder image (3.3KB, displays immediately) */}
+          {hero.placeholderBgImage && (
+            <img
+              src={hero.placeholderBgImage}
+              alt=""
+              aria-hidden="true"
+              className={`absolute inset-0 w-full h-full object-cover object-center blur-md scale-105 transition-opacity duration-700 ${
+                isMainImageLoaded ? 'opacity-0' : 'opacity-90'
+              }`}
+            />
+          )}
+
+          {/* High-res main image (fades in smoothly once loaded) */}
           <img
             src={hero.bgImage}
             alt={`${hero.headingAccent} lobby interior`}
             loading="eager"
             fetchPriority="high"
+            onLoad={() => setIsMainImageLoaded(true)}
             referrerPolicy="no-referrer"
-            className="w-full h-full object-cover object-center opacity-90 scale-100 transition-transform duration-[10s]"
+            className={`w-full h-full object-cover object-center transition-opacity duration-700 ease-out ${
+              isMainImageLoaded ? 'opacity-90' : 'opacity-0'
+            }`}
           />
           {/* Subtle gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-tr from-black/45 via-black/10 to-black/35" />

@@ -39,6 +39,7 @@ export interface SiteConfig {
     primaryCtaText: string;
     secondaryCtaText: string;
     bgImage: string;
+    placeholderBgImage?: string;
     roomOptions: Array<{ value: string; label: string }>;
     guestLimits: {
       maxAdults: number;
@@ -142,6 +143,7 @@ export const siteConfig: SiteConfig = {
     primaryCtaText: "Book Your Stay",
     secondaryCtaText: "Explore Rooms",
     bgImage: "/entrance.jpg",
+    placeholderBgImage: "/entrance-placeholder.jpg",
     roomOptions: [
       { value: "1", label: "1 Room" },
       { value: "2", label: "2 Rooms" },
