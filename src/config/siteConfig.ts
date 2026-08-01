@@ -141,7 +141,7 @@ export const siteConfig: SiteConfig = {
       "A world where comfort, elegance, and tranquility come together to create unforgettable moments.",
     primaryCtaText: "Book Your Stay",
     secondaryCtaText: "Explore Rooms",
-    bgImage: "https://images.unsplash.com/photo-1569734149399-95ad5f8ea2c3?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    bgImage: "/entrance.PNG",
     roomOptions: [
       { value: "1", label: "1 Room" },
       { value: "2", label: "2 Rooms" },
@@ -174,9 +174,9 @@ export const siteConfig: SiteConfig = {
       { id: "amenity-parking", label: "Parking Area", iconName: "Car" },
     ],
     collageImages: [
-      "https://images.unsplash.com/photo-1540518614846-7eded433c457?auto=format&fit=crop&w=600&q=80",
-      "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=600&q=80",
-      "https://images.unsplash.com/photo-1584132967334-10e028bd69f7?auto=format&fit=crop&w=600&q=80",
+      "/passage.PNG",
+      "/stairway.PNG",
+      "/curtain.PNG",
     ],
   },
 
@@ -201,8 +201,7 @@ export const siteConfig: SiteConfig = {
         type: "executive",
         location: "Norphel Retreat",
         price: 1200,
-        image:
-          "https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=800&q=80",
+        image: "/room1.PNG",
       },
       {
         id: "room-2",
@@ -210,8 +209,7 @@ export const siteConfig: SiteConfig = {
         type: "premium",
         location: "Norphel Retreat",
         price: 1600,
-        image:
-          "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80",
+        image: "/room2.PNG",
       },
       {
         id: "room-3",
@@ -219,8 +217,7 @@ export const siteConfig: SiteConfig = {
         type: "luxury",
         location: "Norphel Retreat",
         price: 2100,
-        image:
-          "https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=800&q=80",
+        image: "/window.PNG",
       },
     ],
   },
@@ -234,8 +231,7 @@ export const siteConfig: SiteConfig = {
     description:
       "Our Value lies in delivering warm hospitality, honest service, and consistent quality, ensuring every guest feels genuinely cared for, respected, and welcomed like family throughout their stay.",
     videoCard: {
-      bgImage:
-        "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80",
+      bgImage: "/stairway.PNG",
       badgeText: "Play Tour",
       title: "Norphel Welcome Experience",
       subtitle: "Step into Pelling's finest sanctuary",
@@ -283,7 +279,7 @@ export const siteConfig: SiteConfig = {
       description:
         "Your ideal destination for relaxation, rejuvenation, and memorable experiences.",
       buttonText: "Book Your Stay",
-      bgImage: "https://images.unsplash.com/photo-1569734149399-95ad5f8ea2c3?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      bgImage: "/front.PNG",
     },
     brandDescription:
       "A world where comfort, elegance, and tranquility come together to create unforgettable moments.",

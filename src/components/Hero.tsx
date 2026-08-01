@@ -138,7 +138,7 @@ export default function Hero({ onBookClick, onBookSubmit }: HeroProps) {
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: false, amount: 0.5 }}
-                    className="text-[#B8860B] font-playwrite block text-[25px] xs:text-[28px] sm:text-5xl md:text-5xl lg:text-5xl xl:text-6xl tracking-wide normal-case font-normal leading-relaxed select-none py-2 whitespace-nowrap overflow-visible"
+                    className="text-[#B8860B] font-playwrite block text-[25px] xs:text-[28px] sm:text-5xl md:text-5xl lg:text-5xl xl:text-6xl tracking-wide normal-case font-bold leading-relaxed select-none py-2 whitespace-nowrap overflow-visible"
                   >
                     {hero.headingAccent.split("").map((char, index) => (
                       <motion.span
@@ -253,11 +253,10 @@ export default function Hero({ onBookClick, onBookSubmit }: HeroProps) {
                       setRooms(option.value);
                       setRoomPickerOpen(false);
                     }}
-                    className={`w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-150 cursor-pointer ${
-                      rooms === option.value
-                        ? 'bg-[#B8860B]/10 text-[#B8860B]'
-                        : 'text-gray-700 hover:bg-gray-50'
-                    }`}
+                    className={`w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-150 cursor-pointer ${rooms === option.value
+                      ? 'bg-[#B8860B]/10 text-[#B8860B]'
+                      : 'text-gray-700 hover:bg-gray-50'
+                      }`}
                   >
                     {option.label}
                   </button>
