@@ -1,7 +1,7 @@
 export interface Room {
   id: string;
   name: string;
-  type: 'suite' | 'deluxe' | 'twin' | 'executive' | 'single' | 'premium' | 'luxury';
+  type: 'deluxe' | 'executive' | 'grand';
   location: string;
   price: number;
   image: string;

@@ -110,7 +110,7 @@ export default function AboutUsSection() {
                     d="M 50, 50 m -34, 0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0"
                     fill="none"
                   />
-                  <text fontFamily="Plus Jakarta Sans" fontSize="7.2" fontWeight="bold" fill="#FFFFFF" letterSpacing="1.2">
+                  <text fontFamily="Plus Jakarta Sans" fontSize="7.2" fontWeight="bold" fill="#FFFFFF" letterSpacing="1.7">
                     <textPath href="#badgeCirclePath" startOffset="0%">
                       {aboutSection.badgeText}
                     </textPath>

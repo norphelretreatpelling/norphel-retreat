@@ -166,7 +166,7 @@ export const siteConfig: SiteConfig = {
       "At Norphel Retreat, we believe every guest deserves an extraordinary experience.",
     quote:
       "Norphel Retreat is your ideal destination for relaxation, rejuvenation, and memorable experiences.",
-    badgeText: "HORIZON PARK VALLEY • HORIZON PARK VALLEY •",
+    badgeText: "NORPHEL RETREAT • NORPHEL RETREAT • ",
     amenities: [
       { id: "amenity-wifi", label: "High-Speed Wi-Fi", iconName: "Wifi" },
       { id: "amenity-restaurant", label: "Gourmet Restaurant", iconName: "Utensils" },
@@ -193,32 +193,32 @@ export const siteConfig: SiteConfig = {
     categories: [
       { key: "all", label: "All Rooms", count: null },
       { key: "executive", label: "Executive", count: 1 },
-      { key: "premium", label: "Premium", count: 1 },
-      { key: "luxury", label: "Luxury", count: 1 },
+      { key: "deluxe", label: "Deluxe", count: 1 },
+      { key: "grand", label: "Grand", count: 1 },
     ],
     rooms: [
       {
         id: "room-1",
-        name: "Mountain View",
+        name: "Executive",
         type: "executive",
         location: "Norphel Retreat",
-        price: 1200,
+        price: 2000,
         image: "/room1.jpg",
       },
       {
         id: "room-2",
-        name: "Kanchanjunga Premium",
-        type: "premium",
+        name: "Kanchanjunga Deluxe",
+        type: "deluxe",
         location: "Norphel Retreat",
-        price: 1600,
+        price: 3000,
         image: "/room2.jpg",
       },
       {
         id: "room-3",
-        name: "Kanchanjunga Luxury",
-        type: "luxury",
+        name: "Kanchanjunga Grand",
+        type: "grand",
         location: "Norphel Retreat",
-        price: 2100,
+        price: 4000,
         image: "/window.jpg",
       },
     ],
@@ -237,7 +237,7 @@ export const siteConfig: SiteConfig = {
       badgeText: "Play Tour",
       title: "Norphel Welcome Experience",
       subtitle: "Step into Pelling's finest sanctuary",
-      youtubeEmbedUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1",
+      youtubeEmbedUrl: "/norphel_welcome.mp4",
     },
     services: [
       {
