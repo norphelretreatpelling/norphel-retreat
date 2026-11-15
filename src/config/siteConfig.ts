@@ -106,9 +106,9 @@ export const siteConfig: SiteConfig = {
     name: "NORPHEL RETREAT",
     subTitle: "PELLING",
     location: "Pelling, Sikkim",
-    whatsappNumber: "919127504733",
-    phones: ["+91 91275 04733", "+91 96099 11471"],
-    emails: ["hotlenorphelpelling@gmail.com", "reservations.norphel@gmail.com"],
+    whatsappNumber: "918016869027",
+    phones: ["+91 80168 69027", "+91 75479 50604"],
+    emails: ["norphelretreatpelling@gmail.com", "reservations.norphel@gmail.com"],
     address: "Pelling-Rimbi Road, near Udaan, Pelling City, Sikkim 737113.",
     googleMapsUrl: "https://maps.google.com/?q=NORPHEL%20RETREAT%20PELLING,%20PINE%20CREST,%20near%20UDAAN,%20LOWER,%20Pelling,%20Sikkim%20737113&ftid=0x39e6872a517cbfaf:0xe189ad5e34d355ee&entry=gps&shh=CAE&lucs=,94297699,94231188,94280568,47071704,94218641,100808654,94282134,100813469,94286869,100820247,100813009,100804975&g_st=iwb",
     socials: {
