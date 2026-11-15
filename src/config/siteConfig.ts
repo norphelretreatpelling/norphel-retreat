@@ -203,7 +203,7 @@ export const siteConfig: SiteConfig = {
         type: "executive",
         location: "Norphel Retreat",
         price: 2000,
-        image: "/room1.jpg",
+        image: "/placeholder_picture.png",
       },
       {
         id: "room-2",
